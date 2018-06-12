@@ -1,0 +1,16 @@
+PODS:
+  - EZSwiftExtensions (1.11)
+
+DEPENDENCIES:
+  - EZSwiftExtensions
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - EZSwiftExtensions
+
+SPEC CHECKSUMS:
+  EZSwiftExtensions: 84000042202d9fd574f626cda3064143f27fa767
+
+PODFILE CHECKSUM: 02823ea653f76be824ac3a98202228c5601f669e
+
+COCOAPODS: 1.5.3

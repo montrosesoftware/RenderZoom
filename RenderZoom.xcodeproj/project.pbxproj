@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0BB2447944A919197DB21E87 /* Pods_RenderZoomTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24804D88CC36B53D80230B8E /* Pods_RenderZoomTests.framework */; };
-		2BFCC053C70F034CEC75F297 /* Pods_RenderZoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78FAAC4CE24CFC3F0642DA00 /* Pods_RenderZoom.framework */; };
+		BE50190BA69AA78E6FC1249F /* Pods_RenderZoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2ACB6F2042FA0438DBEB2A /* Pods_RenderZoom.framework */; };
 		DC4824EA20D0160200E4B936 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4824E920D0160200E4B936 /* AppDelegate.swift */; };
 		DC4824EC20D0160200E4B936 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4824EB20D0160200E4B936 /* ViewController.swift */; };
 		DC4824EF20D0160200E4B936 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC4824ED20D0160200E4B936 /* Main.storyboard */; };
@@ -16,7 +15,7 @@
 		DC4824F420D0160300E4B936 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC4824F220D0160300E4B936 /* LaunchScreen.storyboard */; };
 		DC4824FF20D0160300E4B936 /* RenderZoomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4824FE20D0160300E4B936 /* RenderZoomTests.swift */; };
 		DC48250A20D0160300E4B936 /* RenderZoomUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC48250920D0160300E4B936 /* RenderZoomUITests.swift */; };
-		FB272C893690F05D87A62073 /* Pods_RenderZoomUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BFE87EDB05C29E3A0534578 /* Pods_RenderZoomUITests.framework */; };
+		DCEDAC7820D01FD900063F70 /* RenderZoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEDAC7720D01FD900063F70 /* RenderZoom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,13 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1D03622AC5EDBA621287D407 /* Pods-RenderZoomTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RenderZoomTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RenderZoomTests/Pods-RenderZoomTests.debug.xcconfig"; sourceTree = "<group>"; };
-		24804D88CC36B53D80230B8E /* Pods_RenderZoomTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RenderZoomTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		43875AFD4A1BF00B5A769613 /* Pods-RenderZoomUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RenderZoomUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RenderZoomUITests/Pods-RenderZoomUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		64549007014C7561CA12F1EA /* Pods-RenderZoomTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RenderZoomTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RenderZoomTests/Pods-RenderZoomTests.release.xcconfig"; sourceTree = "<group>"; };
-		78FAAC4CE24CFC3F0642DA00 /* Pods_RenderZoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RenderZoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BFE87EDB05C29E3A0534578 /* Pods_RenderZoomUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RenderZoomUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA2B3FF3F71A6F81BACC6D78 /* Pods-RenderZoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RenderZoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RenderZoom/Pods-RenderZoom.debug.xcconfig"; sourceTree = "<group>"; };
+		BE8098E3AAB43227B2AF6CDF /* libPods-RenderZoomUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RenderZoomUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC4824E620D0160200E4B936 /* RenderZoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderZoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC4824E920D0160200E4B936 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC4824EB20D0160200E4B936 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,8 +51,11 @@
 		DC48250520D0160300E4B936 /* RenderZoomUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RenderZoomUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC48250920D0160300E4B936 /* RenderZoomUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderZoomUITests.swift; sourceTree = "<group>"; };
 		DC48250B20D0160300E4B936 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E8EBC239F13A23DB6733E00B /* Pods-RenderZoomUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RenderZoomUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RenderZoomUITests/Pods-RenderZoomUITests.release.xcconfig"; sourceTree = "<group>"; };
+		DCEDAC7720D01FD900063F70 /* RenderZoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderZoom.swift; sourceTree = "<group>"; };
+		DCEDAC7920D0214600063F70 /* EZSwiftExtensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EZSwiftExtensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F071EE43F12BF5DB1A307795 /* Pods-RenderZoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RenderZoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-RenderZoom/Pods-RenderZoom.release.xcconfig"; sourceTree = "<group>"; };
+		F248F9025E2ECC1BB21BCCFD /* libPods-RenderZoomTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RenderZoomTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA2ACB6F2042FA0438DBEB2A /* Pods_RenderZoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RenderZoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BFCC053C70F034CEC75F297 /* Pods_RenderZoom.framework in Frameworks */,
+				BE50190BA69AA78E6FC1249F /* Pods_RenderZoom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +71,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BB2447944A919197DB21E87 /* Pods_RenderZoomTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB272C893690F05D87A62073 /* Pods_RenderZoomUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,9 +87,10 @@
 		A27930276B541F0C3BFFB64F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				78FAAC4CE24CFC3F0642DA00 /* Pods_RenderZoom.framework */,
-				24804D88CC36B53D80230B8E /* Pods_RenderZoomTests.framework */,
-				8BFE87EDB05C29E3A0534578 /* Pods_RenderZoomUITests.framework */,
+				DCEDAC7920D0214600063F70 /* EZSwiftExtensions.framework */,
+				F248F9025E2ECC1BB21BCCFD /* libPods-RenderZoomTests.a */,
+				BE8098E3AAB43227B2AF6CDF /* libPods-RenderZoomUITests.a */,
+				FA2ACB6F2042FA0438DBEB2A /* Pods_RenderZoom.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -104,10 +100,6 @@
 			children = (
 				AA2B3FF3F71A6F81BACC6D78 /* Pods-RenderZoom.debug.xcconfig */,
 				F071EE43F12BF5DB1A307795 /* Pods-RenderZoom.release.xcconfig */,
-				1D03622AC5EDBA621287D407 /* Pods-RenderZoomTests.debug.xcconfig */,
-				64549007014C7561CA12F1EA /* Pods-RenderZoomTests.release.xcconfig */,
-				43875AFD4A1BF00B5A769613 /* Pods-RenderZoomUITests.debug.xcconfig */,
-				E8EBC239F13A23DB6733E00B /* Pods-RenderZoomUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -139,6 +131,7 @@
 			children = (
 				DC4824E920D0160200E4B936 /* AppDelegate.swift */,
 				DC4824EB20D0160200E4B936 /* ViewController.swift */,
+				DCEDAC7720D01FD900063F70 /* RenderZoom.swift */,
 				DC4824ED20D0160200E4B936 /* Main.storyboard */,
 				DC4824F020D0160300E4B936 /* Assets.xcassets */,
 				DC4824F220D0160300E4B936 /* LaunchScreen.storyboard */,
@@ -176,7 +169,7 @@
 				DC4824E220D0160200E4B936 /* Sources */,
 				DC4824E320D0160200E4B936 /* Frameworks */,
 				DC4824E420D0160200E4B936 /* Resources */,
-				B72E7E9FF3DB6601B8964340 /* [CP] Embed Pods Frameworks */,
+				4BB0DEF153C6124DF822109A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -191,7 +184,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC48251120D0160300E4B936 /* Build configuration list for PBXNativeTarget "RenderZoomTests" */;
 			buildPhases = (
-				091B5B64E414D232B7BFB3A3 /* [CP] Check Pods Manifest.lock */,
 				DC4824F620D0160300E4B936 /* Sources */,
 				DC4824F720D0160300E4B936 /* Frameworks */,
 				DC4824F820D0160300E4B936 /* Resources */,
@@ -210,7 +202,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC48251420D0160300E4B936 /* Build configuration list for PBXNativeTarget "RenderZoomUITests" */;
 			buildPhases = (
-				08737194B742FD823EA2821D /* [CP] Check Pods Manifest.lock */,
 				DC48250120D0160300E4B936 /* Sources */,
 				DC48250220D0160300E4B936 /* Frameworks */,
 				DC48250320D0160300E4B936 /* Resources */,
@@ -296,43 +287,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08737194B742FD823EA2821D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RenderZoomUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		091B5B64E414D232B7BFB3A3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RenderZoomTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B72E7E9FF3DB6601B8964340 /* [CP] Embed Pods Frameworks */ = {
+		4BB0DEF153C6124DF822109A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -376,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC4824EC20D0160200E4B936 /* ViewController.swift in Sources */,
+				DCEDAC7820D01FD900063F70 /* RenderZoom.swift in Sources */,
 				DC4824EA20D0160200E4B936 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -583,7 +539,6 @@
 		};
 		DC48251220D0160300E4B936 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D03622AC5EDBA621287D407 /* Pods-RenderZoomTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -604,7 +559,6 @@
 		};
 		DC48251320D0160300E4B936 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64549007014C7561CA12F1EA /* Pods-RenderZoomTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -625,7 +579,6 @@
 		};
 		DC48251520D0160300E4B936 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43875AFD4A1BF00B5A769613 /* Pods-RenderZoomUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -645,7 +598,6 @@
 		};
 		DC48251620D0160300E4B936 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8EBC239F13A23DB6733E00B /* Pods-RenderZoomUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

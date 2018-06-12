@@ -1,0 +1,6 @@
+framework module Pods_RenderZoom {
+  umbrella header "Pods-RenderZoom-umbrella.h"
+
+  export *
+  module * { export * }
+}
