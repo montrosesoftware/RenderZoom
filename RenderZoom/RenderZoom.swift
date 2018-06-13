@@ -369,3 +369,99 @@ class RenderZoomViewController: UIViewController {
     transitionManager?.onDismiss?()
   }
 }
+
+struct Constants {
+    struct RenderZoom {
+        static let zoomInThreshold: CGFloat = 1.3
+        static let zoomOutThreshold: CGFloat = 1.9
+        static let minElementWidth: CGFloat = 0.1
+    }
+}
+
+extension UIView {
+    
+    var windowRelatedFrame: CGRect {
+        var superview = self.superview
+        var frame = self.frame
+        while superview != nil && superview?.superview != nil {
+            let hiperview = superview!.superview!
+            frame = superview!.convert(frame, to: hiperview)
+            superview = hiperview
+        }
+        return frame
+    }
+}
+
+class Color {
+    //Brand Colors
+    static let GOLD = UIColor(r: 168, g: 153, b: 110)
+    static let BLUE = UIColor(r: 26, g: 53, b: 100)
+    
+    //Utility Colors
+    static let WHITE = UIColor.white
+    static let LIGHT_GOLD = UIColor(r:246, g:244, b:240)
+    static let DARK_GREY = UIColor(r: 228, g: 228, b: 228)
+    static let DARKER_GREY = UIColor(r: 119, g: 119 , b: 119)
+    static let DARKER_GREY_07 = UIColor(r: 119, g: 119 , b: 119).withAlphaComponent(0.7)
+    static let DARK_GREY_2 = UIColor(r: 151, g: 151, b: 151)
+    static let BLACK = UIColor(r: 51, g: 51, b: 51)
+    
+    //Secondary Colors
+    static let TEAL = UIColor(r:0, g: 127, b: 122)
+    static let DARK_RED = UIColor(r: 111, g: 56, b: 38)
+    static let PURPLE = UIColor(r: 125, g: 61, b: 99)
+    static let BLUE_SEC = UIColor(r: 6, g: 86 , b: 144)
+    static let TURQUOISE = UIColor(r: 32, g: 166, b: 193)
+    static let RED = UIColor(r: 223, g: 66, b: 66)
+    static let PEACH = UIColor(r: 230, g: 158, b: 115)
+    
+    //Styleguide pretendents
+    static let NAVY = UIColor(r: 4, g: 25, b: 53)
+    static let ORANGE = UIColor(r: 243, g: 165, b: 54)
+    static let NAVY_BLUE = UIColor(r: 47, g: 85, b: 143)
+    
+    //Helpers
+    static let SEPARATOR = Color.DARK_GREY
+    static let GREY = UIColor(r: 153, g: 153, b: 153)
+    static let LIGHT_GREY = UIColor(r: 216, g: 216, b: 216).withAlphaComponent(0.2)
+    static let HIGHLIGHT_RED = UIColor(r: 158, g: 33, b: 31).withAlphaComponent(0.2)
+    
+    @available(*, deprecated: 1.0)
+    static let NEPAL = UIColor(hexString: "#98AAC7")!
+    @available(*, deprecated: 1.0)
+    static let INDIGO = UIColor(hexString: "#5B7606")!
+    @available(*, deprecated: 1.0)
+    static let ALUMINUM = UIColor(hexString: "#9b9b9b")!
+    
+    static let GREEN = UIColor(r: 42, g: 205, b: 71)
+    static let NOTIFICATION_GREEN = UIColor(r: 49, g: 164, b: 99)
+    
+    static let C249_249_249 = UIColor(r: 249, g: 249, b: 249)
+}
+
+extension Comparable {
+    func clamped(to limits: ClosedRange<Self>) -> Self {
+        return min(max(self, limits.lowerBound), limits.upperBound)
+    }
+}
+
+extension UIView {
+    
+    func animateTo(frame: CGRect, withDuration duration: TimeInterval, animations: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
+        guard let _ = superview else {
+            return
+        }
+        
+        let xScale = frame.size.width / max(self.frame.size.width, 1.0)
+        let yScale = frame.size.height / max(self.frame.size.height, 1.0)
+        let x = frame.origin.x + (self.frame.width * xScale) * self.layer.anchorPoint.x
+        let y = frame.origin.y + (self.frame.height * yScale) * self.layer.anchorPoint.y
+        
+        UIView.animate(withDuration: duration, delay: 0, options: .curveLinear, animations: {
+            self.layer.position = CGPoint(x: x, y: y)
+            self.transform = self.transform.scaledBy(x: xScale, y: yScale)
+            animations?()
+        }, completion: completion)
+    }
+}
+

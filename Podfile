@@ -4,4 +4,5 @@ use_frameworks!
 
 target 'RenderZoom' do
   pod 'EZSwiftExtensions'
+  pod 'PureLayout'
 end
