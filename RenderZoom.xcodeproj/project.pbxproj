@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE50190BA69AA78E6FC1249F /* Pods_RenderZoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2ACB6F2042FA0438DBEB2A /* Pods_RenderZoom.framework */; };
+		BE50190BA69AA78E6FC1249F /* Pods_RenderZoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2ACB6F2042FA0438DBEB2A /* Pods_RenderZoom.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DC4824EA20D0160200E4B936 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4824E920D0160200E4B936 /* AppDelegate.swift */; };
 		DC4824EC20D0160200E4B936 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4824EB20D0160200E4B936 /* ViewController.swift */; };
 		DC4824EF20D0160200E4B936 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC4824ED20D0160200E4B936 /* Main.storyboard */; };
@@ -444,7 +444,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -498,7 +498,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -513,6 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TWCHK8QHVC;
 				INFOPLIST_FILE = RenderZoom/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -531,6 +532,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TWCHK8QHVC;
 				INFOPLIST_FILE = RenderZoom/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

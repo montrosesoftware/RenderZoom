@@ -10,9 +10,17 @@ import UIKit
 
 class ViewController: UIViewController {
 
+  @IBOutlet weak var backView: UIView!
+
+  private var zoomBack: RenderZoomManager?
+    
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    self.zoomBack = RenderZoomManager(from: self)
+    self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView)
+    self.zoomBack!.onDismiss = {
+        self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView)
+    }
   }
 
   override func didReceiveMemoryWarning() {
