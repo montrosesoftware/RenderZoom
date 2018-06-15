@@ -23,7 +23,7 @@ class ZoomRenders {
     fileprivate static var finalFrame = CGRect(origin: CGPoint(x: (ez.screenWidth/2) - (ZoomRenders.ZOOMED_IN_SIZE.width/2), y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2)), size: ZoomRenders.ZOOMED_IN_SIZE)   //TODO change it to let
     fileprivate let zoomedOutView: UIView
     
-    fileprivate let initialView: UIView     //are all views necessary?
+    fileprivate let initialView: UIView
     fileprivate let listeningView: UIView
     fileprivate lazy var transitionView: UIView = ZoomRenders.convertForTransition(self.nonMutableTransitioningView)
     private let nonMutableTransitioningView: UIView
@@ -109,6 +109,10 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
     
     init(from: UIViewController) {
         self.fromViewController = from
+    }
+    
+    func zoomIn(view: UIView) {
+        zoomIn(fromView: view, listeningView: view, transitionView: view)
     }
     
     func zoomIn(fromView: UIView, actualFrameView: UIView? = nil, listeningView: UIView, transitionView: UIView) {
