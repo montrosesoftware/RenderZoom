@@ -44,7 +44,7 @@ class ShadedView: UIView {
     }
     
     func sharedInit() {
-        backgroundColor = Color.WHITE
+        backgroundColor = UIColor.white
         if let content = content {
             addSubview(content)
         }
@@ -80,4 +80,8 @@ class ShadedView: UIView {
             layer.shadowPath = shadowPath.cgPath
         }
     }
+}
+
+class Color {
+    static let BLACK = UIColor(r: 51, g: 51, b: 51)
 }
