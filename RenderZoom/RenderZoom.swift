@@ -328,14 +328,25 @@ extension RenderZoomManager: UIViewControllerTransitioningDelegate {
     }
 }
 
-class RenderZoomViewController: UIViewController {  //TODO: create small methods
+open class RenderZoomViewController: UIViewController {  //this is open in order to give a possibility to subclass it TODO: discuss if it's fine
     fileprivate let bckgView = UIView.newAutoLayout()
-    private let renderContainer: UIScrollView = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2), w: ez.screenWidth, h: ZoomRenders.ZOOMED_IN_SIZE.height))
     
     var gestureVelocity: CGFloat = 0
     var transitionManager: RenderZoomManager?
     
-    override func viewDidLoad() {
+    var renderContainer: UIScrollView?
+    
+    open func calculateRenderContainer() {   //this is to make it configurable TODO ask Swift expert how to do it better
+        let rc = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2), w: ez.screenWidth, h: ZoomRenders.ZOOMED_IN_SIZE.height))
+        rc.contentSize = CGSize(width: ZoomRenders.ZOOMED_IN_SIZE.width + 30, height: ZoomRenders.ZOOMED_IN_SIZE.height)
+        rc.clipsToBounds = false
+        rc.showsVerticalScrollIndicator = false
+        rc.showsHorizontalScrollIndicator = false
+        rc.setContentOffset(CGPoint(x: (rc.contentSize.width/2) - (rc.bounds.size.width/2), y: 0), animated: false)
+        renderContainer = rc
+    }
+    
+    override open func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.clear
         bckgView.addTapGesture { [unowned self] _ in
@@ -346,16 +357,11 @@ class RenderZoomViewController: UIViewController {  //TODO: create small methods
         bckgView.autoPinEdgesToSuperviewEdges()
         bckgView.backgroundColor = UIColor.white
         
-        renderContainer.contentSize = CGSize(width: ZoomRenders.ZOOMED_IN_SIZE.width + 30, height: ZoomRenders.ZOOMED_IN_SIZE.height)
-        renderContainer.clipsToBounds = false
-        renderContainer.showsVerticalScrollIndicator = false
-        renderContainer.showsHorizontalScrollIndicator = false
-        renderContainer.setContentOffset(CGPoint(x: (renderContainer.contentSize.width/2) - (renderContainer.bounds.size.width/2), y: 0), animated: false)
-        view.addSubview(renderContainer)
-        
+        calculateRenderContainer()
+        view.addSubview(renderContainer!)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let renders = self.transitionManager?.renders {
             UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: gestureVelocity, options: UIViewAnimationOptions(), animations: {
@@ -363,13 +369,13 @@ class RenderZoomViewController: UIViewController {  //TODO: create small methods
                 renders.transitionView.frame = ZoomRenders.finalFrame
             }, completion: { _ in
                 renders.transitionView.frame = CGRect(origin: CGPoint(x: 15, y: 0), size: ZoomRenders.ZOOMED_IN_SIZE)
-                self.renderContainer.addSubview(renders.transitionView)
+                self.renderContainer!.addSubview(renders.transitionView)
                 self.transitionManager!.zoomOut(listeningView: renders.transitionView)
             })
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         transitionManager?.onDismiss?()
     }
