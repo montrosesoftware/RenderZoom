@@ -19,11 +19,11 @@ enum ZoomDirection {
 class ZoomRenders {
     private static let REPLICA = 439 //Need to store this so we dont replicate the replica.
     
-    fileprivate static let ZOOMED_IN_SIZE: CGSize = CGSize(width: 700, height: 500)   //TODO: make
+    fileprivate static let ZOOMED_IN_SIZE: CGSize = CGSize(width: 700, height: 500)   //TODO: make it configurable
     fileprivate static var finalFrame = CGRect(origin: CGPoint(x: (ez.screenWidth/2) - (ZoomRenders.ZOOMED_IN_SIZE.width/2), y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2)), size: ZoomRenders.ZOOMED_IN_SIZE)   //TODO change it to let
     fileprivate let zoomedOutView: UIView
     
-    fileprivate let initialView: UIView
+    fileprivate let initialView: UIView     //are all views necessary?
     fileprivate let listeningView: UIView
     fileprivate lazy var transitionView: UIView = ZoomRenders.convertForTransition(self.nonMutableTransitioningView)
     private let nonMutableTransitioningView: UIView
@@ -75,7 +75,7 @@ class ZoomRenders {
             return view
         } else {
             let replica = view.snapshotView(afterScreenUpdates: false)!
-            let replicaContainer = ShadedView(frame: view.windowRelatedFrame)
+            let replicaContainer = ShadedView(frame: view.windowRelatedFrame) //TODO change it to UIView
             replicaContainer.clipsToBounds = false
             replica.frame = view.bounds
             replicaContainer.addSubview(replica)
@@ -148,7 +148,7 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
     }
     
     @objc func handleRotationGesture(gesture: UIRotationGestureRecognizer) {  //it's @objc so it can be used in selector
-        if isInteractive && isTransitioning {
+        if isInteractive && isTransitioning {   //TODO change it to guard
             if gesture.state == .changed {
                 renders.transitionView.transform = renders.transitionView.transform.rotated(by: gesture.rotation)
                 gesture.rotation = 0
@@ -225,7 +225,7 @@ extension RenderZoomManager: UIViewControllerAnimatedTransitioning {
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         isTransitioning = true
-        self.transitionContext = transitionContext
+        self.transitionContext = transitionContext  //are we sure that is not nil
         renders.initialView.isHidden = true
         
         // make sure toViewController is layed out
@@ -299,7 +299,7 @@ extension RenderZoomManager: UIViewControllerAnimatedTransitioning {
 
 extension RenderZoomManager: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if presented is RenderZoomViewController {
+        if presented is RenderZoomViewController {  //TODO: DRY it
             isPresenting = true
             return self
         }
@@ -307,7 +307,7 @@ extension RenderZoomManager: UIViewControllerTransitioningDelegate {
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if dismissed is RenderZoomViewController {
+        if dismissed is RenderZoomViewController {  //TODO: DRY it
             isPresenting = false
             return self
         }
@@ -323,7 +323,7 @@ extension RenderZoomManager: UIViewControllerTransitioningDelegate {
     }
 }
 
-class RenderZoomViewController: UIViewController {
+class RenderZoomViewController: UIViewController {  //TODO: create small methods
     fileprivate let bckgView = UIView.newAutoLayout()
     private let renderContainer: UIScrollView = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2), w: ez.screenWidth, h: ZoomRenders.ZOOMED_IN_SIZE.height))
     
