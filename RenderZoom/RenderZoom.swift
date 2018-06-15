@@ -20,7 +20,7 @@ class ZoomRenders {
     private static let REPLICA = 439 //Need to store this so we dont replicate the replica.
     
     fileprivate static let ZOOMED_IN_SIZE: CGSize = CGSize(width: 700, height: 500)   //TODO: make it configurable
-    fileprivate static var finalFrame = CGRect(origin: CGPoint(x: (ez.screenWidth/2) - (ZoomRenders.ZOOMED_IN_SIZE.width/2), y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2)), size: ZoomRenders.ZOOMED_IN_SIZE)   //TODO change it to let
+    fileprivate static let finalFrame = CGRect(origin: CGPoint(x: (ez.screenWidth/2) - (ZoomRenders.ZOOMED_IN_SIZE.width/2), y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2)), size: ZoomRenders.ZOOMED_IN_SIZE)
     fileprivate let zoomedOutView: UIView
     
     fileprivate let initialView: UIView
@@ -75,7 +75,7 @@ class ZoomRenders {
             return view
         } else {
             let replica = view.snapshotView(afterScreenUpdates: false)!
-            let replicaContainer = ShadedView(frame: view.windowRelatedFrame) //TODO change it to UIView
+            let replicaContainer = UIView(frame: view.windowRelatedFrame)   //TODO make it settable
             replicaContainer.clipsToBounds = false
             replica.frame = view.bounds
             replicaContainer.addSubview(replica)
@@ -152,11 +152,12 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
     }
     
     @objc func handleRotationGesture(gesture: UIRotationGestureRecognizer) {  //it's @objc so it can be used in selector
-        if isInteractive && isTransitioning {   //TODO change it to guard
-            if gesture.state == .changed {
-                renders.transitionView.transform = renders.transitionView.transform.rotated(by: gesture.rotation)
-                gesture.rotation = 0
-            }
+        guard isInteractive, isTransitioning else {
+            return
+        }
+        if gesture.state == .changed {
+            renders.transitionView.transform = renders.transitionView.transform.rotated(by: gesture.rotation)
+            gesture.rotation = 0
         }
     }
     
@@ -303,16 +304,16 @@ extension RenderZoomManager: UIViewControllerAnimatedTransitioning {
 
 extension RenderZoomManager: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if presented is RenderZoomViewController {  //TODO: DRY it
-            isPresenting = true
-            return self
-        }
-        return nil
+        return animationController(viewController: presented, isPresenting: true)
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if dismissed is RenderZoomViewController {  //TODO: DRY it
-            isPresenting = false
+        return animationController(viewController: dismissed, isPresenting: false)
+    }
+    
+    func animationController(viewController: UIViewController, isPresenting: Bool) -> UIViewControllerAnimatedTransitioning? {
+        if viewController is RenderZoomViewController {
+            self.isPresenting = isPresenting
             return self
         }
         return nil
@@ -403,7 +404,6 @@ extension Comparable {
 }
 
 extension UIView {
-    
     func animateTo(frame: CGRect, withDuration duration: TimeInterval, animations: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
         guard let _ = superview else {
             return
