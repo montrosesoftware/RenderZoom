@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         self.zoomBack = RenderZoomManager(from: self)
         self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView)
         self.zoomBack!.onDismiss = {
-            self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView)
+            self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView, finalFrame: self.backView.frame)
         }
     }
     
