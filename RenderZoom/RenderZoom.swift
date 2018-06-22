@@ -19,8 +19,9 @@ enum ZoomDirection {
 class ZoomRenders {
     private static let REPLICA = 439 //Need to store this so we dont replicate the replica.
     
-    fileprivate static let ZOOMED_IN_SIZE: CGSize = CGSize(width: 700, height: 500)   //TODO: make it configurable
-    fileprivate static let finalFrame = CGRect(origin: CGPoint(x: (ez.screenWidth/2) - (ZoomRenders.ZOOMED_IN_SIZE.width/2), y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2)), size: ZoomRenders.ZOOMED_IN_SIZE)
+    fileprivate static let ZOOMED_IN_SIZE: CGSize = UIScreen.main.bounds.size//CGSize(width: 700, height: 5)   //TODO: make it configurable
+                                                                                      //this is misleading, since scale is taken, not dimensions
+    fileprivate static let finalFrame = UIScreen.main.bounds//CGRect(origin: CGPoint(x: (ez.screenWidth/2) - (ZoomRenders.ZOOMED_IN_SIZE.width/2), y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2)), size: ZoomRenders.ZOOMED_IN_SIZE)
     fileprivate let zoomedOutView: UIView
     
     fileprivate let initialView: UIView
@@ -115,7 +116,7 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
         zoomIn(fromView: view, listeningView: view, transitionView: view)
     }
     
-    func zoomIn(fromView: UIView, actualFrameView: UIView? = nil, listeningView: UIView, transitionView: UIView) {
+    func zoomIn(fromView: UIView, actualFrameView: UIView? = nil, listeningView: UIView, transitionView: UIView) {  //TODO move actualFrameView: to the end
         isPresenting = true
         renders = ZoomRenders(initialView: fromView, listeningView: listeningView, transitionView: transitionView, baseView: actualFrameView ?? fromView, direction: .zoomIn)
         listen()
@@ -168,7 +169,7 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
         if gesture.state == .changed {
             let translation = gesture.translation(in: view)
             renders.transitionView.center = CGPoint(x:renders.transitionView.center.x + translation.x, y:renders.transitionView.center.y + translation.y)
-            gesture.setTranslation(CGPoint.zero, in: view)
+            gesture.setTranslation(CGPoint.zero, in: view)      //TODO: simplyfi code related to CG
         }
     }
     
@@ -337,7 +338,7 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     var renderContainer: UIScrollView?
     
     open func calculateRenderContainer() {   //this is to make it configurable TODO ask Swift expert how to do it better
-        let rc = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2), w: ez.screenWidth, h: ZoomRenders.ZOOMED_IN_SIZE.height))
+        let rc = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2), w: ez.screenWidth, h: ZoomRenders.ZOOMED_IN_SIZE.height))         //only here ZOOMED_IN_SIZE.height really matters
         rc.contentSize = CGSize(width: ZoomRenders.ZOOMED_IN_SIZE.width + 30, height: ZoomRenders.ZOOMED_IN_SIZE.height)
         rc.clipsToBounds = false
         rc.showsVerticalScrollIndicator = false
