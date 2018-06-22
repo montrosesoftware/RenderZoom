@@ -19,9 +19,7 @@ enum ZoomDirection {
 class ZoomRenders {
     private static let REPLICA = 439 //Need to store this so we dont replicate the replica.
     
-    fileprivate static let ZOOMED_IN_SIZE: CGSize = UIScreen.main.bounds.size//CGSize(width: 700, height: 5)   //TODO: make it configurable
-                                                                                      //this is misleading, since scale is taken, not dimensions
-    fileprivate static let finalFrame = UIScreen.main.bounds//CGRect(origin: CGPoint(x: (ez.screenWidth/2) - (ZoomRenders.ZOOMED_IN_SIZE.width/2), y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2)), size: ZoomRenders.ZOOMED_IN_SIZE)
+    fileprivate static let finalFrame = UIScreen.main.bounds//TODO: make it configurable
     fileprivate let zoomedOutView: UIView
     
     fileprivate let initialView: UIView
@@ -31,7 +29,7 @@ class ZoomRenders {
     fileprivate var direction: ZoomDirection = .zoomIn
     
     var toSize: CGSize {
-        return direction == .zoomIn ? ZoomRenders.ZOOMED_IN_SIZE : zoomedOutView.frame.size
+        return direction == .zoomIn ? ZoomRenders.finalFrame.size : zoomedOutView.frame.size
     }
     
     var scale: CGFloat {
@@ -46,7 +44,7 @@ class ZoomRenders {
         self.initialView = initialView
         self.zoomedOutView = baseView
         self.listeningView = listeningView
-        self.nonMutableTransitioningView = transitionView
+        self.nonMutableTransitioningView = transitionView   //TODO consider renaming transitionView to nonMutableTransitioningView
         self.direction = direction
     }
     
@@ -263,11 +261,13 @@ extension RenderZoomManager: UIViewControllerAnimatedTransitioning {
             self.toViewController.bckgView.alpha = 0.8
         }) { _ -> Void in
             if self.transitionContext!.transitionWasCancelled {
+                //treshold was not achieved, view goes back to the normal size
                 self.toViewController.view.removeFromSuperview()
                 self.isPresenting = true
                 self.renders.endsZoomOut()
                 self.transitionContext!.completeTransition(false)
             } else {
+                //treshold was achieved, zoomed in view is presented
                 self.isPresenting = false
                 self.renders.endsZoomIn()
                 self.transitionContext!.completeTransition(true)
@@ -338,8 +338,8 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     var renderContainer: UIScrollView?
     
     open func calculateRenderContainer() {   //this is to make it configurable TODO ask Swift expert how to do it better
-        let rc = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (ZoomRenders.ZOOMED_IN_SIZE.height/2), w: ez.screenWidth, h: ZoomRenders.ZOOMED_IN_SIZE.height))         //only here ZOOMED_IN_SIZE.height really matters
-        rc.contentSize = CGSize(width: ZoomRenders.ZOOMED_IN_SIZE.width + 30, height: ZoomRenders.ZOOMED_IN_SIZE.height)
+        let rc = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (ZoomRenders.finalFrame.size.height/2), w: ez.screenWidth, h: ZoomRenders.finalFrame.size.height))
+        rc.contentSize = CGSize(width: ZoomRenders.finalFrame.size.width + 30, height: ZoomRenders.finalFrame.size.height)  //30 is to give a vertical bounce TODO move it to a const
         rc.clipsToBounds = false
         rc.showsVerticalScrollIndicator = false
         rc.showsHorizontalScrollIndicator = false
@@ -364,16 +364,22 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let renders = self.transitionManager?.renders {
+        
+        if let renders = self.transitionManager?.renders {//TODO: change this initial view
+            let verticalOffset = self.calculateVerticalOffset(forFrame: renders.initialView.frame, insideFrame: ZoomRenders.finalFrame, scale: renders.finalScale)
             UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: gestureVelocity, options: UIViewAnimationOptions(), animations: {
                 renders.transitionView.transform = CGAffineTransform.identity.scaledBy(x: renders.finalScale, y: renders.finalScale)
                 renders.transitionView.frame = ZoomRenders.finalFrame
             }, completion: { _ in
-                renders.transitionView.frame = CGRect(origin: CGPoint(x: 15, y: 0), size: ZoomRenders.ZOOMED_IN_SIZE)
+                renders.transitionView.frame = CGRect(origin: CGPoint(x: 15, y: verticalOffset), size: ZoomRenders.finalFrame.size)
                 self.renderContainer!.addSubview(renders.transitionView)
                 self.transitionManager!.zoomOut(listeningView: renders.transitionView)
             })
         }
+    }
+    
+    func calculateVerticalOffset(forFrame innerFrame: CGRect, insideFrame outterFrame: CGRect, scale: CGFloat ) -> Int {
+        return Int((outterFrame.size.height - (innerFrame.size.height * scale)) / 2)
     }
     
     override open func viewDidDisappear(_ animated: Bool) {
