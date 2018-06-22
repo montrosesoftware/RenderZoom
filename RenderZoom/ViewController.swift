@@ -17,9 +17,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.zoomBack = RenderZoomManager(from: self)
-        self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView)
+        self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView, finalFrame: self.backView)
         self.zoomBack!.onDismiss = {
-            self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView, finalFrame: self.backView.frame)
+            self.zoomBack!.zoomIn(fromView: self.backView, listeningView: self.backView, transitionView: self.backView, finalFrame: self.backView)
         }
     }
     
