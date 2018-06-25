@@ -349,7 +349,7 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
             return
         }
         
-        let rc = UIScrollView(frame: CGRect(x: 0, y: (ez.screenHeight/2) - (renders.finalView.size.height/2), w: ez.screenWidth, h: renders.finalView.size.height))
+        let rc = UIScrollView(frame: CGRect(x: 0, y: 0, w: ez.screenWidth, h: ez.screenHeight)) //this is probably right, however double check if this shoudn't be limited
         rc.contentSize = CGSize(width: renders.finalView.size.width + 30, height: renders.finalView.size.height)  //30 is to give a vertical bounce TODO move it to a const
         rc.clipsToBounds = false
         rc.showsVerticalScrollIndicator = false
@@ -377,7 +377,7 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
         super.viewDidAppear(animated)
         
         if let renders = self.transitionManager?.renders {
-            let verticalOffset = self.calculateVerticalOffset(forFrame: renders.initialView.frame, insideFrame: renders.finalView.frame, scale: renders.finalScale)//TODO: change this initial view
+            let verticalOffset = self.calculateVerticalOffset(forFrame: renders.initialView.frame, insideFrame: renders.finalView, scale: renders.finalScale)//TODO: change this initial view!!!
             UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: gestureVelocity, options: UIViewAnimationOptions(), animations: {
                 renders.transitionView.transform = CGAffineTransform.identity.scaledBy(x: renders.finalScale, y: renders.finalScale)
                 renders.transitionView.frame = renders.finalView.frame
@@ -389,8 +389,8 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
         }
     }
     
-    func calculateVerticalOffset(forFrame innerFrame: CGRect, insideFrame outterFrame: CGRect, scale: CGFloat ) -> Int {
-        return Int((outterFrame.size.height - (innerFrame.size.height * scale)) / 2)
+    func calculateVerticalOffset(forFrame innerFrame: CGRect, insideFrame outterFrame: UIView, scale: CGFloat ) -> Int {
+        return Int(outterFrame.origin.y + ((outterFrame.size.height - (innerFrame.size.height * scale)) / 2))
     }
     
     override open func viewDidDisappear(_ animated: Bool) {
