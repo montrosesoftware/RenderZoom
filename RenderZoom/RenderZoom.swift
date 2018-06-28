@@ -33,11 +33,23 @@ class ZoomRenders {
     }
     
     var scale: CGFloat {
-        return transitionView.w / (zoomedOutView.frame.w == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.w)
+        if isViewLandscapeOriented {
+            return transitionView.w / (zoomedOutView.frame.w == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.w)
+        } else {
+            return transitionView.h / (zoomedOutView.frame.h == 0 ? Constants.RenderZoom.minElementHeight : zoomedOutView.frame.h)
+        }
     }
     
     var finalScale: CGFloat {
-        return toSize.width / (zoomedOutView.frame.w == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.w)
+        if isViewLandscapeOriented {
+            return toSize.width / (zoomedOutView.frame.w == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.w)
+        } else {
+            return toSize.height / (zoomedOutView.frame.h == 0 ? Constants.RenderZoom.minElementHeight : zoomedOutView.frame.h)
+        }
+    }
+    
+    var isViewLandscapeOriented: Bool {
+        return initialView.size.width / finalView.size.width > initialView.size.height / finalView.size.height
     }
     
     init(initialView: UIView, listeningView: UIView, transitionView: UIView, baseView: UIView, finalFrame: UIView, direction: ZoomDirection) {
@@ -346,18 +358,43 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     
     let bounceOffset: CGFloat = 30
     
+    var horizontalBounceMargin: CGFloat {
+        guard let renders = self.transitionManager?.renders else {
+            return 0
+        }
+        return renders.isViewLandscapeOriented ? 30 : 0
+    }
+    
+    var verticalBounceMargin: CGFloat {
+        guard let renders = self.transitionManager?.renders else {
+            return 0
+        }
+        return renders.isViewLandscapeOriented ? 0 : 30
+    }
+    
+    
+    
     open func calculateRenderContainer() {   //this is to make it configurable TODO ask Swift expert how to do it better
         guard let renders = self.transitionManager?.renders else {
             return
         }
         
         let rc = UIScrollView(frame: CGRect(x: 0, y: 0, w: ez.screenWidth, h: ez.screenHeight)) //this is probably right, however double check if this shoudn't be limited
-        rc.contentSize = CGSize(width: renders.finalView.size.width + bounceOffset, height: renders.finalView.size.height)
+        rc.contentSize = CGSize(width: renders.finalView.size.width + horizontalBounceMargin, height: renders.finalView.size.height + verticalBounceMargin)
         rc.clipsToBounds = false
         rc.showsVerticalScrollIndicator = false
         rc.showsHorizontalScrollIndicator = false
-        rc.setContentOffset(CGPoint(x: (rc.contentSize.width/2) - (rc.bounds.size.width/2), y: 0), animated: false)
+        rc.setContentOffset(contentOffsetPoint(forView: rc, renders: renders), animated: false)
         renderContainer = rc
+    }
+    
+    private func contentOffsetPoint(forView view: UIScrollView, renders: ZoomRenders) -> CGPoint{
+        if renders.isViewLandscapeOriented {
+            return CGPoint(x: (view.contentSize.width/2) - (view.bounds.size.width/2), y: 0)
+        } else {
+            return CGPoint(x: 0, y: (view.contentSize.height/2) - (view.bounds.size.height/2))
+        }
+        
     }
     
     override open func viewDidLoad() {
@@ -379,20 +416,33 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
         super.viewDidAppear(animated)
         
         if let renders = self.transitionManager?.renders {
-            let verticalOffset = self.calculateVerticalOffset(forFrame: renders.initialView.frame, insideFrame: renders.finalView, scale: renders.finalScale)//TODO: change this initial view!!!
+            let verticalOffset = self.calculateVerticalOffset(forFrame: renders.initialView.frame, insideFrame: renders.finalView, scale: renders.finalScale, renders:  renders)//TODO: change this initial view!!!
+            let horizontalOffset = self.calculateHorizontalOffset(forFrame: renders.initialView.frame, insideFrame: renders.finalView, scale: renders.finalScale, renders:  renders)//TODO: change this initial view!!!
             UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: gestureVelocity, options: UIViewAnimationOptions(), animations: {
                 renders.transitionView.transform = CGAffineTransform.identity.scaledBy(x: renders.finalScale, y: renders.finalScale)
                 renders.transitionView.frame = renders.finalView.frame
             }, completion: { _ in
-                renders.transitionView.frame = CGRect(origin: CGPoint(x: Int(self.bounceOffset/2), y: verticalOffset), size: renders.finalView.size)
+                renders.transitionView.frame = CGRect(origin: CGPoint(x: horizontalOffset, y: verticalOffset), size: renders.finalView.size)
                 self.renderContainer!.addSubview(renders.transitionView)
                 self.transitionManager!.zoomOut(listeningView: renders.transitionView)
             })
         }
     }
     
-    func calculateVerticalOffset(forFrame innerFrame: CGRect, insideFrame outterFrame: UIView, scale: CGFloat ) -> Int {
-        return Int(outterFrame.origin.y + ((outterFrame.size.height - (innerFrame.size.height * scale)) / 2))
+    func calculateVerticalOffset(forFrame innerFrame: CGRect, insideFrame outterFrame: UIView, scale: CGFloat, renders: ZoomRenders) -> Int {
+        if renders.isViewLandscapeOriented {
+            return Int(outterFrame.origin.y + ((outterFrame.size.height - (innerFrame.size.height * scale)) / 2))
+        } else {
+            return Int(self.bounceOffset/2)
+        }
+    }
+    
+    func calculateHorizontalOffset(forFrame innerFrame: CGRect, insideFrame outterFrame: UIView, scale: CGFloat, renders: ZoomRenders) -> Int {
+        if renders.isViewLandscapeOriented {
+            return Int(self.bounceOffset/2)
+        } else {
+            return Int(outterFrame.origin.x + ((outterFrame.size.width - (innerFrame.size.width * scale)) / 2))
+        }
     }
     
     override open func viewDidDisappear(_ animated: Bool) {
@@ -406,6 +456,7 @@ struct Constants {
         static let zoomInThreshold: CGFloat = 1.3
         static let zoomOutThreshold: CGFloat = 1.9
         static let minElementWidth: CGFloat = 0.1
+        static let minElementHeight: CGFloat = 0.1
     }
 }
 
