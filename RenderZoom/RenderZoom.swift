@@ -52,12 +52,12 @@ class ZoomRenders {
         return initialView.size.width / finalView.size.width > initialView.size.height / finalView.size.height
     }
     
-    init(initialView: UIView, listeningView: UIView, transitionView: UIView, baseView: UIView, finalFrame: UIView, direction: ZoomDirection) {
+    init(initialView: UIView, listeningView: UIView, transitionView: UIView, baseView: UIView, finalView: UIView, direction: ZoomDirection) {
         self.initialView = initialView
         self.zoomedOutView = baseView
         self.listeningView = listeningView
         self.nonMutableTransitioningView = transitionView   //TODO consider renaming transitionView to nonMutableTransitioningView
-        self.finalView = finalFrame
+        self.finalView = finalView
         self.direction = direction
     }
     
@@ -100,7 +100,7 @@ class ZoomRenders {
         guard zoomInRenders.direction == .zoomIn else {
             return zoomInRenders
         }
-        let renders =  ZoomRenders(initialView: zoomInRenders.initialView, listeningView: listeningView, transitionView: zoomInRenders.transitionView, baseView: zoomInRenders.zoomedOutView, finalFrame: zoomInRenders.finalView, direction: .zoomOut)
+        let renders =  ZoomRenders(initialView: zoomInRenders.initialView, listeningView: listeningView, transitionView: zoomInRenders.transitionView, baseView: zoomInRenders.zoomedOutView, finalView: zoomInRenders.finalView, direction: .zoomOut)
         return renders
     }
 }
@@ -127,9 +127,9 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
         zoomIn(fromView: view, listeningView: view, transitionView: view)
     }
     
-    func zoomIn(fromView: UIView, actualFrameView: UIView? = nil, listeningView: UIView, transitionView: UIView, finalFrame: UIView = RenderZoomManager.defaultFinalFrame()) {  //TODO move actualFrameView: to the end
+    func zoomIn(fromView: UIView, actualFrameView: UIView? = nil, listeningView: UIView, transitionView: UIView, finalView: UIView = RenderZoomManager.defaultFinalFrame()) {  //TODO move actualFrameView: to the end
         isPresenting = true
-        renders = ZoomRenders(initialView: fromView, listeningView: listeningView, transitionView: transitionView, baseView: actualFrameView ?? fromView, finalFrame: finalFrame, direction: .zoomIn)
+        renders = ZoomRenders(initialView: fromView, listeningView: listeningView, transitionView: transitionView, baseView: actualFrameView ?? fromView, finalView: finalView, direction: .zoomIn)
         listen()
     }
     
