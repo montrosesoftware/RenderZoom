@@ -344,13 +344,15 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     
     var renderContainer: UIScrollView?
     
+    let bounceOffset: CGFloat = 30
+    
     open func calculateRenderContainer() {   //this is to make it configurable TODO ask Swift expert how to do it better
         guard let renders = self.transitionManager?.renders else {
             return
         }
         
         let rc = UIScrollView(frame: CGRect(x: 0, y: 0, w: ez.screenWidth, h: ez.screenHeight)) //this is probably right, however double check if this shoudn't be limited
-        rc.contentSize = CGSize(width: renders.finalView.size.width + 30, height: renders.finalView.size.height)  //30 is to give a vertical bounce TODO move it to a const
+        rc.contentSize = CGSize(width: renders.finalView.size.width + bounceOffset, height: renders.finalView.size.height)
         rc.clipsToBounds = false
         rc.showsVerticalScrollIndicator = false
         rc.showsHorizontalScrollIndicator = false
@@ -382,7 +384,7 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
                 renders.transitionView.transform = CGAffineTransform.identity.scaledBy(x: renders.finalScale, y: renders.finalScale)
                 renders.transitionView.frame = renders.finalView.frame
             }, completion: { _ in
-                renders.transitionView.frame = CGRect(origin: CGPoint(x: 15, y: verticalOffset), size: renders.finalView.size)
+                renders.transitionView.frame = CGRect(origin: CGPoint(x: Int(self.bounceOffset/2), y: verticalOffset), size: renders.finalView.size)
                 self.renderContainer!.addSubview(renders.transitionView)
                 self.transitionManager!.zoomOut(listeningView: renders.transitionView)
             })
