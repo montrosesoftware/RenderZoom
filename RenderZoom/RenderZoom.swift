@@ -184,7 +184,7 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
         if gesture.state == .changed {
             let translation = gesture.translation(in: view)
             renders.transitionView.center = CGPoint(x:renders.transitionView.center.x + translation.x, y:renders.transitionView.center.y + translation.y)
-            gesture.setTranslation(CGPoint.zero, in: view)      //TODO: simplyfi code related to CG
+            gesture.setTranslation(.zero, in: view)
         }
     }
     
