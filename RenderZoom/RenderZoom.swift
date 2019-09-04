@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import EZSwiftExtensions
+import UIKit
 
 @objc protocol RenderZoomDelegate {     //TODO rename
     func zoomIn(view: UIView) -> RenderZoomManager?
@@ -29,27 +29,27 @@ class ZoomRenders {
     fileprivate var direction: ZoomDirection = .zoomIn
     
     var toSize: CGSize {
-        return direction == .zoomIn ? finalView.size : zoomedOutView.frame.size
+        return direction == .zoomIn ? finalView.frame.size : zoomedOutView.frame.size
     }
     
     var scale: CGFloat {
         if isViewLandscapeOriented {
-            return transitionView.w / (zoomedOutView.frame.w == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.w)
+            return transitionView.frame.width / (zoomedOutView.frame.width == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.width)
         } else {
-            return transitionView.h / (zoomedOutView.frame.h == 0 ? Constants.RenderZoom.minElementHeight : zoomedOutView.frame.h)
+            return transitionView.frame.height / (zoomedOutView.frame.height == 0 ? Constants.RenderZoom.minElementHeight : zoomedOutView.frame.height)
         }
     }
     
     var finalScale: CGFloat {
         if isViewLandscapeOriented {
-            return toSize.width / (zoomedOutView.frame.w == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.w)
+            return toSize.width / (zoomedOutView.frame.width == 0 ? Constants.RenderZoom.minElementWidth : zoomedOutView.frame.width)
         } else {
-            return toSize.height / (zoomedOutView.frame.h == 0 ? Constants.RenderZoom.minElementHeight : zoomedOutView.frame.h)
+            return toSize.height / (zoomedOutView.frame.height == 0 ? Constants.RenderZoom.minElementHeight : zoomedOutView.frame.height)
         }
     }
     
     var isViewLandscapeOriented: Bool {
-        return initialView.size.width / finalView.size.width > initialView.size.height / finalView.size.height
+        return initialView.frame.width / finalView.frame.width > initialView.frame.height / finalView.frame.height
     }
     
     init(initialView: UIView, listeningView: UIView, transitionView: UIView, baseView: UIView, finalView: UIView, direction: ZoomDirection) {
@@ -167,7 +167,7 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
         return true
     }
     
-    @objc func handleRotationGesture(gesture: UIRotationGestureRecognizer) {  //it's @objc so it can be used in selector
+    @objc func handleRotationGesture(gesture: UIRotationGestureRecognizer) {
         guard isInteractive, isTransitioning else {
             return
         }
@@ -199,9 +199,9 @@ class RenderZoomManager: UIPercentDrivenInteractiveTransition, UIGestureRecogniz
                 toViewController.transitioningDelegate = self
                 toViewController.modalPresentationStyle = .overCurrentContext
                 renders.startsZoomIn()
-                fromViewController.presentVC(self.toViewController)
+                fromViewController.present(self.toViewController, animated: true)
             } else {
-                toViewController.dismissVC(completion: nil)
+                toViewController.dismiss(animated: true)
             }
         case .changed:
             renders.transitionView.transform = renders.transitionView.transform.scaledBy(x: gesture.scale, y: gesture.scale)
@@ -379,8 +379,8 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
             return
         }
         
-        let rc = UIScrollView(frame: CGRect(x: 0, y: 0, w: ez.screenWidth, h: ez.screenHeight)) //this is probably right, however double check if this shoudn't be limited
-        rc.contentSize = CGSize(width: renders.finalView.size.width + horizontalBounceMargin, height: renders.finalView.size.height + verticalBounceMargin)
+        let rc = UIScrollView(frame: CGRect(x: 0, y: 0, width: UIScreen.screenWidth, height: UIScreen.screenHeight)) //this is probably right, however double check if this shoudn't be limited
+        rc.contentSize = CGSize(width: renders.finalView.frame.width + horizontalBounceMargin, height: renders.finalView.frame.height + verticalBounceMargin)
         rc.clipsToBounds = false
         rc.showsVerticalScrollIndicator = false
         rc.showsHorizontalScrollIndicator = false
@@ -400,16 +400,21 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     override open func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.clear
-        bckgView.addTapGesture { [unowned self] _ in
-            self.transitionManager?.isInteractive = false
-            self.dismissVC(completion: nil)
-        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        bckgView.addGestureRecognizer(tap)
+        
         view.addSubview(bckgView)
         bckgView.autoPinEdgesToSuperviewEdges()
         bckgView.backgroundColor = UIColor.white
         
         calculateRenderContainer()
         view.addSubview(renderContainer!)
+    }
+    
+    @objc func tapGestureAction() {
+        transitionManager?.isInteractive = false
+        dismiss(animated: true)
     }
     
     override open func viewDidAppear(_ animated: Bool) {
@@ -422,7 +427,7 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
                 renders.transitionView.transform = CGAffineTransform.identity.scaledBy(x: renders.finalScale, y: renders.finalScale)
                 renders.transitionView.frame = renders.finalView.frame
             }, completion: { _ in
-                renders.transitionView.frame = CGRect(origin: CGPoint(x: horizontalOffset, y: verticalOffset), size: renders.finalView.size)
+                renders.transitionView.frame = CGRect(origin: CGPoint(x: horizontalOffset, y: verticalOffset), size: renders.finalView.frame.size)
                 self.renderContainer!.addSubview(renders.transitionView)
                 self.transitionManager!.zoomOut(listeningView: renders.transitionView)
             })
@@ -431,7 +436,7 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     
     func calculateVerticalOffset(forFrame innerFrame: CGRect, insideFrame outterFrame: UIView, scale: CGFloat, renders: ZoomRenders) -> Int {
         if renders.isViewLandscapeOriented {
-            return Int(outterFrame.origin.y + ((outterFrame.size.height - (innerFrame.size.height * scale)) / 2))
+            return Int(outterFrame.frame.origin.y + ((outterFrame.frame.height - (innerFrame.size.height * scale)) / 2))
         } else {
             return Int(self.bounceOffset/2)
         }
@@ -441,7 +446,7 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
         if renders.isViewLandscapeOriented {
             return Int(self.bounceOffset/2)
         } else {
-            return Int(outterFrame.origin.x + ((outterFrame.size.width - (innerFrame.size.width * scale)) / 2))
+            return Int(outterFrame.frame.origin.x + ((outterFrame.frame.width - (innerFrame.size.width * scale)) / 2))
         }
     }
     
@@ -496,6 +501,28 @@ extension UIView {
             self.transform = self.transform.scaledBy(x: xScale, y: yScale)
             animations?()
         }, completion: completion)
+    }
+}
+
+extension UIScreen {
+    static var screenOrientation: UIInterfaceOrientation {
+        return UIApplication.shared.statusBarOrientation
+    }
+    
+    static var screenWidth: CGFloat {
+        if UIInterfaceOrientationIsPortrait(screenOrientation) {
+            return UIScreen.main.bounds.size.width
+        } else {
+            return UIScreen.main.bounds.size.height
+        }
+    }
+    
+    static var screenHeight: CGFloat {
+        if UIInterfaceOrientationIsPortrait(screenOrientation) {
+            return UIScreen.main.bounds.size.height
+        } else {
+            return UIScreen.main.bounds.size.width
+        }
     }
 }
 

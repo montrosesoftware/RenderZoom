@@ -17,7 +17,9 @@ class ShadedView: UIView {
     
     var content: UIView? {
         didSet {
-            removeSubviews()
+            for subview in subviews {
+                subview.removeFromSuperview()
+            }
             if let content = content {
                 addSubview(content)
             }
@@ -83,5 +85,5 @@ class ShadedView: UIView {
 }
 
 class Color {
-    static let BLACK = UIColor(r: 51, g: 51, b: 51)
+    static let BLACK = UIColor(red: 51 / 255.0, green: 51 / 255.0, blue: 51 / 255.0, alpha: 1)
 }

@@ -1,20 +1,16 @@
 PODS:
-  - EZSwiftExtensions (2.0)
   - PureLayout (3.1.4)
 
 DEPENDENCIES:
-  - EZSwiftExtensions
   - PureLayout
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - EZSwiftExtensions
     - PureLayout
 
 SPEC CHECKSUMS:
-  EZSwiftExtensions: f73648a591e529a1dbd83c22b19fd3e57df6fb7d
   PureLayout: f08c01b8dec00bb14a1fefa3de4c7d9c265df85e
 
-PODFILE CHECKSUM: 5110527d22a00b8c1bcf9945668de463703ddabc
+PODFILE CHECKSUM: ba4815814cc03843189943931c04e1a153fb87fe
 
 COCOAPODS: 1.5.3
