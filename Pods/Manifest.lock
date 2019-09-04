@@ -1,6 +1,6 @@
 PODS:
-  - EZSwiftExtensions (1.11)
-  - PureLayout (3.0.2)
+  - EZSwiftExtensions (2.0)
+  - PureLayout (3.1.4)
 
 DEPENDENCIES:
   - EZSwiftExtensions
@@ -12,8 +12,8 @@ SPEC REPOS:
     - PureLayout
 
 SPEC CHECKSUMS:
-  EZSwiftExtensions: 84000042202d9fd574f626cda3064143f27fa767
-  PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
+  EZSwiftExtensions: f73648a591e529a1dbd83c22b19fd3e57df6fb7d
+  PureLayout: f08c01b8dec00bb14a1fefa3de4c7d9c265df85e
 
 PODFILE CHECKSUM: 5110527d22a00b8c1bcf9945668de463703ddabc
 
