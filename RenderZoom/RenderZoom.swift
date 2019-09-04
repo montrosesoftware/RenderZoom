@@ -400,7 +400,10 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     override open func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.clear
-        bckgView.addTapGesture(action: #selector(tapGestureAction))
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        bckgView.addGestureRecognizer(tap)
+        
         view.addSubview(bckgView)
         bckgView.autoPinEdgesToSuperviewEdges()
         bckgView.backgroundColor = UIColor.white
@@ -410,8 +413,8 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     }
     
     @objc func tapGestureAction() {
-        self.transitionManager?.isInteractive = false
-        self.dismiss(animated: true)
+        transitionManager?.isInteractive = false
+        dismiss(animated: true)
     }
     
     override open func viewDidAppear(_ animated: Bool) {
@@ -498,15 +501,6 @@ extension UIView {
             self.transform = self.transform.scaledBy(x: xScale, y: yScale)
             animations?()
         }, completion: completion)
-    }
-}
-
-extension UIView {
-    public func addTapGesture(action: Selector) {
-        let tap = UITapGestureRecognizer(target: self, action: action)
-        tap.numberOfTapsRequired = 1
-        addGestureRecognizer(tap)
-        isUserInteractionEnabled = true
     }
 }
 
