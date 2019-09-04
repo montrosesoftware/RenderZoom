@@ -349,7 +349,7 @@ extension RenderZoomManager: UIViewControllerTransitioningDelegate {
 }
 
 open class RenderZoomViewController: UIViewController {  //this is open in order to give a possibility to subclass it TODO: discuss if it's fine
-    fileprivate let bckgView = UIView.newAutoLayout()
+    fileprivate var bckgView = UIView.init()
     
     var gestureVelocity: CGFloat = 0
     var transitionManager: RenderZoomManager?
@@ -400,14 +400,15 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
     override open func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.clear
+        bckgView.translatesAutoresizingMaskIntoConstraints = false
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
         bckgView.addGestureRecognizer(tap)
         
         view.addSubview(bckgView)
-        bckgView.autoPinEdgesToSuperviewEdges()
+        //bckgView.autoPinEdgesToSuperviewEdges()       //this seems to be not necessary
         bckgView.backgroundColor = UIColor.white
-        
+
         calculateRenderContainer()
         view.addSubview(renderContainer!)
     }
