@@ -406,9 +406,9 @@ open class RenderZoomViewController: UIViewController {  //this is open in order
         bckgView.addGestureRecognizer(tap)
         
         view.addSubview(bckgView)
-        bckgView.autoPinEdgesToSuperviewEdges()
+        //bckgView.autoPinEdgesToSuperviewEdges()       //this seems to be not necessary
         bckgView.backgroundColor = UIColor.white
-        
+
         calculateRenderContainer()
         view.addSubview(renderContainer!)
     }
